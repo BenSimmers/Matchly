@@ -1,22 +1,11 @@
-# Ignore configuration files
-*.log
-*.tsbuildinfo
+/src
+/node_modules
 
-# Ignore test files
-test/
-tests/
-*.spec.*
-*.test.*
-
-# Ignore local environment files
-.env
-.env.*
-
-# Ignore documentation and metadata
-docs/
-.vscode/
-.idea/
-
-# Ignore Makefile and CI/CD files
-Makefile
-.github/
+tsconfig.json
+tsup.config.ts
+/.github
+/.vscode
+/.changeset
+/.yarn
+/.storybook
+/src
