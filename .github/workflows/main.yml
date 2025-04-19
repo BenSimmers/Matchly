@@ -19,6 +19,5 @@ jobs:
           node-version: 21.x
           cache: "pnpm"
 
-      #   - run: pnpm store prune && rm -rf node_modules
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run lint && pnpm run build
+      - run: make lint && make build
