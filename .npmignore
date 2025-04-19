@@ -1,0 +1,27 @@
+# Ignore build artifacts
+dist/
+
+# Ignore configuration files
+*.log
+*.tsbuildinfo
+pnpm-lock.yaml
+
+# Ignore test files
+test/
+tests/
+*.spec.*
+*.test.*
+
+# Ignore local environment files
+.env
+.env.*
+
+# Ignore documentation and metadata
+*.md
+docs/
+.vscode/
+.idea/
+
+# Ignore Makefile and CI/CD files
+Makefile
+.github/
