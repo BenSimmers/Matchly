@@ -1,5 +1,11 @@
 # matchly
 
+## 1.0.1
+
+### Patch Changes
+
+- 120c31a: kickoff minor publish
+
 ## 1.0.0
 
 ### Major Changes
