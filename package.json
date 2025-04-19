@@ -1,0 +1,26 @@
+{
+  "name": "matchly",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "changeset": "changesets version",
+    "release": "npm run build && changeset publish",
+    "lint": "tsc --noEmit && prettier --check . --ignore-unknown",
+    "lint:fix": "tsc --noEmit && prettier --write . --ignore-unknown",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.2",
+    "@types/node": "^22.14.1",
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  }
+}
