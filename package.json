@@ -20,9 +20,21 @@
     "test:coverage": "vitest --coverage",
     "test:ui": "vitest --ui"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "typescript",
+    "pattern-matching",
+    "functional-programming",
+    "declarative",
+    "data-driven",
+    "type-safe",
+    "matchly"
+  ],
+  "author": "Benjamin Simmers",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenSimmers/Matchly.git"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@changesets/cli": "^2.29.2",
     "@types/node": "^22.14.1",
