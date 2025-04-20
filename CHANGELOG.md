@@ -1,5 +1,11 @@
 # matchly-patterns
 
+## 0.0.4
+
+### Patch Changes
+
+- eeb8106: update command for matchly return type
+
 ## 0.0.3
 
 ### Patch Changes
