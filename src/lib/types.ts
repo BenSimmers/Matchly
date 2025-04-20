@@ -33,18 +33,20 @@ type Result<T, R> = (value: T) => R;
  */
 type Matcher<T, R> = {
   /**
-   * Adds a condition and its associated result to the matcher.
+   * Adds a predicate to the matcher chain.
    *
-   * @param predicate - A function that checks if the condition matches.
-   * @param result - A function that produces a result if the condition is met.
-   * @returns The current Matcher instance for chaining.
+   * If the predicate returns true, the corresponding result function will be executed.
+   *
+   * @param predicate - A function that checks if the value matches a condition.
+   * @param result - A function that produces a result if the predicate is true.
+   * @returns The Matcher instance for chaining.
    *
    * @example
    * ```ts
-   * matcher.when(x => x === 0, () => 'zero');
+   * matcher.when(x => x > 10, () => 'Greater than 10');
    * ```
    */
-  when: (predicate: Predicate<T>, result: Result<T, R>) => Matcher<T, R>;
+  when: <NR>(predicate: Predicate<T>, result: Result<T, NR>) => Matcher<T, R | NR>;
 
   /**
    * Ends the matcher chain and returns the result.
