@@ -53,7 +53,7 @@ class MatcherClass<T, R> implements Matcher<T, R> {
   }
 }
 
-const matchly = <T, R>(value: T): Matcher<T, R> => {
+const matchly = <T>(value: T): Matcher<T, never> => {
   return new MatcherClass(value);
 };
 
