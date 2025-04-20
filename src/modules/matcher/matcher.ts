@@ -1,47 +1,43 @@
-import { Matcher } from "../../lib";
+import { Matcher, Predicate, Result } from "../../lib";
 
-class MatcherClass<T, R> {
-  private cases: { predicate: (v: T) => boolean; result: (v: T) => R }[] = [];
-  private matched = false;
+class MatcherClass<T, R> implements Matcher<T, R> {
+  private cases: Array<{ predicate: Predicate<T>; result: Result<T, R> }> = [];
   private debugMode = false;
   private safeMode = false;
 
   constructor(private value: T) {}
 
-  enableDebug(): this {
+  enableDebug(): Matcher<T, R> {
     this.debugMode = true;
     return this;
   }
 
-  enableSafeMode(): this {
+  enableSafeMode(): Matcher<T, R> {
     this.safeMode = true;
     return this;
   }
 
-  when(predicate: (value: T) => boolean, result: (value: T) => R): Matcher<T, R> {
-    if (typeof predicate !== "function") {
-      throw new TypeError("Predicate must be a function.");
-    }
-    if (typeof result !== "function") {
-      throw new TypeError("Result must be a function.");
-    }
-    this.cases.push({ predicate, result });
-    return this;
+  when<NR>(predicate: Predicate<T>, result: Result<T, NR>): Matcher<T, R | NR> {
+    const newMatcher = new MatcherClass<T, R | NR>(this.value);
+    newMatcher.cases = [...this.cases, { predicate, result: result as Result<T, R | NR> }];
+    newMatcher.debugMode = this.debugMode;
+    newMatcher.safeMode = this.safeMode;
+    return newMatcher;
   }
 
-  otherwise(defaultResult?: (value: T) => R): R {
-    for (const c of this.cases) {
+  otherwise(defaultResult?: Result<T, R>): R {
+    for (const { predicate, result } of this.cases) {
       try {
-        if (c.predicate(this.value)) {
-          if (this.debugMode) console.log(`Matched case: ${c.predicate}`);
-          return c.result(this.value);
+        if (predicate(this.value)) {
+          if (this.debugMode) console.log("Matched case:", predicate.toString());
+          return result(this.value);
         }
       } catch (error) {
         if (this.safeMode) {
           console.error("Error in predicate or result function:", error);
           continue;
         } else {
-          throw new Error(`Error in case evaluation: ${error}`);
+          throw error;
         }
       }
     }
