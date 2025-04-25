@@ -30,7 +30,14 @@ class MatcherClass<T, R> implements Matcher<T, R> {
       try {
         if (predicate(this.value)) {
           if (this.debugMode) console.log("Matched case:", predicate.toString());
-          return result(this.value);
+          const output = result(this.value);
+
+          // Handle nested matchers
+          if (output instanceof MatcherClass) {
+            return output.otherwise(defaultResult);
+          }
+
+          return output;
         }
       } catch (error) {
         if (this.safeMode) {
