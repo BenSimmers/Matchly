@@ -5,7 +5,7 @@ class MatcherClass<T, R> implements Matcher<T, R> {
   private debugMode = false;
   private safeMode = false;
 
-  constructor(private value: T) { }
+  constructor(private value: T) {}
 
   enableDebug(): Matcher<T, R> {
     this.debugMode = true;

@@ -51,12 +51,21 @@ describe("MatcherClass", () => {
 
   it("should resolve nested matchers correctly", () => {
     const result = matchly("nested")
-      .when(value => value === "nested", () => matchly(5)
-        .when(x => x > 10, () => "Greater than 10")
-        .when(x => x < 3, () => "Less than 3")
-        .otherwise(() => "Between 3 and 10"))
+      .when(
+        (value) => value === "nested",
+        () =>
+          matchly(5)
+            .when(
+              (x) => x > 10,
+              () => "Greater than 10",
+            )
+            .when(
+              (x) => x < 3,
+              () => "Less than 3",
+            )
+            .otherwise(() => "Between 3 and 10"),
+      )
       .otherwise(() => "Default case");
     expect(result).toBe("Between 3 and 10");
   });
-
 });
