@@ -1,5 +1,11 @@
 # matchly-patterns
 
+## 0.1.0
+
+### Minor Changes
+
+- 8b07123: Add nested matchers
+
 ## 0.0.5
 
 ### Patch Changes
