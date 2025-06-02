@@ -92,6 +92,31 @@ type Matcher<T, R> = {
    * ```
    */
   enableSafeMode: () => Matcher<T, R>;
+
+  /**
+   * Resets the matcher to its initial state.
+   *
+   * This clears all previously defined predicates and results.
+   *
+   * @returns The Matcher instance for chaining.
+   *
+   * @example
+   * ```ts
+   * matcher.reset();
+   * ```
+   */
+  reset: () => Matcher<T, R>;
+
+  /**
+   * Returns an array of all predicates and their corresponding results.
+   *
+   * Collect all matching results rather than short-circuiting at the first:
+   *
+   * ```ts
+   * matcher.matchAll();
+   * ```
+   */
+  matchAll: () => R[];
 };
 
 export type { Predicate, Result, Matcher };

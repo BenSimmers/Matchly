@@ -17,6 +17,13 @@ class MatcherClass<T, R> implements Matcher<T, R> {
     return this;
   }
 
+  reset(): Matcher<T, R> {
+    this.cases = [];
+    this.debugMode = false;
+    this.safeMode = false;
+    return this;
+  }
+
   when<NR>(predicate: Predicate<T>, result: Result<T, NR>): Matcher<T, R | NR> {
     const newMatcher = new MatcherClass<T, R | NR>(this.value);
     newMatcher.cases = [...this.cases, { predicate, result: result as Result<T, R | NR> }];
@@ -57,6 +64,34 @@ class MatcherClass<T, R> implements Matcher<T, R> {
 
     if (this.debugMode) console.log("No match found, using default case.");
     return defaultResult(this.value);
+  }
+
+  matchAll() {
+    const results: R[] = [];
+    for (const { predicate, result } of this.cases) {
+      try {
+        if (predicate(this.value)) {
+          if (this.debugMode) console.log("Matched case:", predicate.toString());
+          const output = result(this.value);
+
+          // Handle nested matchers
+          if (output instanceof MatcherClass) {
+            results.push(...output.matchAll());
+          } else {
+            results.push(output);
+          }
+        }
+      } catch (error) {
+        if (this.safeMode) {
+          console.error("Error in predicate or result function:", error);
+          continue;
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    return results;
   }
 }
 
