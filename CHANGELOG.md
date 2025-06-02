@@ -1,5 +1,11 @@
 # matchly-patterns
 
+## 0.2.0
+
+### Minor Changes
+
+- 61e6f75: new matchall feature
+
 ## 0.1.0
 
 ### Minor Changes
