@@ -109,15 +109,14 @@ type Matcher<T, R> = {
 
   /**
    * Returns an array of all predicates and their corresponding results.
-   * 
+   *
    * Collect all matching results rather than short-circuiting at the first:
-   * 
+   *
    * ```ts
    * matcher.matchAll();
    * ```
    */
   matchAll: () => R[];
-
 };
 
 export type { Predicate, Result, Matcher };
