@@ -68,4 +68,35 @@ describe("MatcherClass", () => {
       .otherwise(() => "Default case");
     expect(result).toBe("Between 3 and 10");
   });
+
+  it('reset should clear all when conditions', () => {
+    const matcher = matchly(5)
+      .when(x => x > 0, () => 'positive')
+      .when(x => x === 5, () => 'exactly five')
+      .reset() // clear the conditions
+      .otherwise(() => 'fallback');
+
+    expect(matcher).toBe('fallback');
+  });
+
+  it('the matchall function should return all matches the expression satisfies', () => {
+    const result = matchly(5)
+      .when(
+        (x) => x > 3,
+        (x) => `Greater than 3: ${x}`,
+      )
+      .when(
+        (x) => x < 10,
+        (x) => `Less than 10: ${x}`,
+      )
+      .matchAll();
+
+    expect(result).toEqual([
+      "Greater than 3: 5",
+      "Less than 10: 5",
+    ]);
+  }
+
+  );
+
 });
