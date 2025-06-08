@@ -16,6 +16,7 @@ graph TD
     end
     class B1,B2,B3,B4,B5 node;
 ```
+
 - **src/**: Main TypeScript source code.
 - **tests/**: All test files (unit, integration).
 - **dist/**: Output directory for compiled JavaScript.
