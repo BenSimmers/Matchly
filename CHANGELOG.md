@@ -1,5 +1,11 @@
 # matchly-patterns
 
+## 0.3.0
+
+### Minor Changes
+
+- 586cf11: add option and unwrap types and methods
+
 ## 0.2.0
 
 ### Minor Changes
