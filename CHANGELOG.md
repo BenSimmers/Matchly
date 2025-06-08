@@ -1,5 +1,11 @@
 # matchly-patterns
 
+## 0.3.1
+
+### Patch Changes
+
+- 0005d85: update top level export
+
 ## 0.3.0
 
 ### Minor Changes
