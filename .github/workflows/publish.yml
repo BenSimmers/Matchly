@@ -11,13 +11,20 @@ permissions:
   contents: write
   pull-requests: write
   actions: read
+  pages: write # Needed for GitHub Pages deployment
+  id-token: write # Needed for GitHub Pages deployment
 
 jobs:
   publish:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    outputs: # Output if a release was published
+      published: ${{ steps.changesets.outputs.published }}
+      published_tag: ${{ steps.changesets.outputs.publishedTag }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required for Docusaurus to get git history for last updated info
       - uses: pnpm/action-setup@v2
         with:
           version: 9.5.0
@@ -35,3 +42,41 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
+
+  deploy-docs:
+    needs: publish # Run after the publish job
+    if: needs.publish.outputs.published == 'true' # Only run if a new version was published
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Docusaurus needs git history
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.5.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 21.x
+          cache: "pnpm"
+          cache-dependency-path: "docs-site/pnpm-lock.yaml" # Cache for docs dependencies
+
+      - name: Install Docusaurus dependencies
+        run: cd docs-site && pnpm install --frozen-lockfile
+
+      - name: Build Docusaurus site
+        run: cd docs-site && pnpm run build
+        env:
+          GIT_USER: ${{ github.actor }} # Docusaurus uses this for edit URL, etc.
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "docs-site/build"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
